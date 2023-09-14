@@ -54,17 +54,17 @@ def batchnorm_foward(x, gamma, beta, eps):
     return out, cache
 
 
-# test batchnorm_foward
-batchsize, dimension = 5, 15
-x = np.random.randn(batchsize, dimension)
-gamma = np.ones(dimension)
-beta = np.zeros(dimension)
-eps = 1e-5
-out, cache = batchnorm_foward(x, gamma, beta, eps)
-print(out)
+# # test batchnorm_foward
+# batchsize, dimension = 5, 15
+# x = np.random.randn(batchsize, dimension)
+# gamma = np.ones(dimension)
+# beta = np.zeros(dimension)
+# eps = 1e-5
+# out, cache = batchnorm_foward(x, gamma, beta, eps)
+# print(out)
 
-m = torch.nn.BatchNorm1d(dimension, eps=eps)
-print(m(torch.tensor(x).float()))
+# m = torch.nn.BatchNorm1d(dimension, eps=eps)
+# print(m(torch.tensor(x).float()))
 
 
 #%% Torch implementation of Batch Normalization
@@ -98,7 +98,7 @@ class MyBatchNorm(pl.LightningModule):
         elif len(self.shape) == 4:
             mean = torch.mean(x, dim=(0, 2, 3), keepdim=True)
             var = torch.mean((x - mean) ** 2, dim=(0, 2, 3), keepdim=True)
-        print(mean.shape)
+        # print(mean.shape)
         x_hat = (x - mean) / torch.sqrt(var + 1e-5)
         out = self.gamma * x_hat + self.beta
         self.moving_mean = 0.9 * self.moving_mean + 0.1 * mean
@@ -111,9 +111,10 @@ class MyBatchNorm(pl.LightningModule):
         out = self.gamma * x_hat + self.beta
         return out
 
-x = np.arange(24).reshape(2, 3, 2, 2)
-print(x.shape) # BatchSize, Channel, Height, Width
-mbn = MyBatchNorm(3, 4)   
-print(mbn(torch.tensor(x).float()).shape)
+# x = np.arange(24).reshape(2, 3, 2, 2)
+# print(x.shape) # BatchSize, Channel, Height, Width
+# mbn = MyBatchNorm(3, 4)   
+# print(mbn(torch.tensor(x).float()).shape)
 
-# %%
+
+
